@@ -1,4 +1,5 @@
 using gg_test.Data;
+using gg_test.Models;
 using gg_test.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -32,17 +33,17 @@ builder.Services.AddSwaggerGen(c =>
 
 var smtpSettings = builder.Configuration.GetSection("SmtpSettings");
 
-string smtpUser = Environment.GetEnvironmentVariable("SMTP_USERNAME") ?? smtpSettings["Username"];
-string smtpPass = Environment.GetEnvironmentVariable("SMTP_PASSWORD") ?? smtpSettings["Password"];
+string smtpUser = Environment.GetEnvironmentVariable("SMTP_USERNAME") ?? smtpSettings["Username"]!;
+string smtpPass = Environment.GetEnvironmentVariable("SMTP_PASSWORD") ?? smtpSettings["Password"]!;
 
 builder.Services.Configure<SmtpSettings>(options =>
 {
-    options.Host = smtpSettings["Host"];
-    options.Port = int.Parse(smtpSettings["Port"]);
+    options.Host = smtpSettings["Host"]!;
+    options.Port = int.Parse(smtpSettings["Port"]!);
     options.Username = smtpUser;
     options.Password = smtpPass;
-    options.EnableSsl = bool.Parse(smtpSettings["EnableSsl"]);
-    options.FromEmail = smtpSettings["FromEmail"];
+    options.EnableSsl = bool.Parse(smtpSettings["EnableSsl"]!);
+    options.FromEmail = smtpSettings["FromEmail"]!;
 });
 
 var app = builder.Build();
