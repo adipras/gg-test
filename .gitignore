@@ -1,0 +1,17 @@
+# Ignore user secrets directory
+secrets.json
+
+# Ignore environment config files
+appsettings.Development.json
+appsettings.Local.json
+
+# Ignore compiled binaries
+bin/
+obj/
+
+# Ignore IDE settings
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.ide
