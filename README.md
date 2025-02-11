@@ -109,6 +109,28 @@ API will be available at `http://localhost:5125/swagger`.
   - **Manager**: Can only see data for users in their department.
   - **Employees**: Can only see their own data.
 
+### KPI Summary
+**GET** `/api/kpi-summary`
+- Generates a summary of KPIs from all companies in JSON format.
+
+#### JSON Output Example
+```json
+[
+  {
+    "CompanyName": "Company A",
+    "AverageMonthlyRevenue": 100000.00,
+    "AverageNetProfit": 20000.00,
+    "AverageProfitMargin": 20.00
+  },
+  {
+    "CompanyName": "Company B",
+    "AverageMonthlyRevenue": 150000.00,
+    "AverageNetProfit": 30000.00,
+    "AverageProfitMargin": 20.00
+  }
+]
+```
+
 ## Seeded Users for Testing
 
 | Username           | Password     | Role     |

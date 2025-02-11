@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using gg_test.Data;
 
@@ -11,9 +12,11 @@ using gg_test.Data;
 namespace gg_test.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250211032857_AddCompaniesAndKPIs")]
+    partial class AddCompaniesAndKPIs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,35 +24,6 @@ namespace gg_test.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
-
-            modelBuilder.Entity("gg_test.Models.Company", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Company A"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Company B"
-                        });
-                });
 
             modelBuilder.Entity("gg_test.Models.EmailHistory", b =>
                 {
@@ -80,67 +54,6 @@ namespace gg_test.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmailHistories");
-                });
-
-            modelBuilder.Entity("gg_test.Models.KPI", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("MonthlyRevenue")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<decimal>("NetProfit")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<decimal>("ProfitMargin")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("KPIs");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CompanyId = 1,
-                            MonthlyRevenue = 100000m,
-                            NetProfit = 20000m,
-                            ProfitMargin = 20m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CompanyId = 1,
-                            MonthlyRevenue = 120000m,
-                            NetProfit = 25000m,
-                            ProfitMargin = 21m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CompanyId = 2,
-                            MonthlyRevenue = 150000m,
-                            NetProfit = 30000m,
-                            ProfitMargin = 20m
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CompanyId = 2,
-                            MonthlyRevenue = 160000m,
-                            NetProfit = 32000m,
-                            ProfitMargin = 20m
-                        });
                 });
 
             modelBuilder.Entity("gg_test.Models.User", b =>
@@ -181,7 +94,7 @@ namespace gg_test.Migrations
                             Department = "IT",
                             Email = "admin@example.com",
                             Name = "Admin User",
-                            Password = "$2a$11$45lIcvCeDBbZElA79B3kYe1hyHimb5.AgAUvzmIkYTfqpuCx6ocnm",
+                            Password = "$2a$11$l8h0N0aGnP8T/J.KtrNEaOCOUwHDrift/szAam3rq7qC03YM92I9y",
                             Role = 0
                         },
                         new
@@ -190,7 +103,7 @@ namespace gg_test.Migrations
                             Department = "Sales",
                             Email = "manager@example.com",
                             Name = "Manager User",
-                            Password = "$2a$11$x1vtGo3gFS4Wm5T/fRuQnexwywVd.ogk0RU.wUB2rdBB4/EOMUxN6",
+                            Password = "$2a$11$.ZweTpP7amR5CtSgmCI5/udyyE52ajpcfl0e1fiH8aX27JLKFOpge",
                             Role = 1
                         },
                         new
@@ -199,7 +112,7 @@ namespace gg_test.Migrations
                             Department = "Sales",
                             Email = "emp1@example.com",
                             Name = "Employee1",
-                            Password = "$2a$11$Ely1uPtNsH7bzi/q6LRWPO53LhcDOr7C3aUtHyToofV5pRjB71Kj.",
+                            Password = "$2a$11$V3XMmUuKGiOuwx48uda6cu7Lz5WfzqJ.qDWq9MZYNZAaAtnXA9sq2",
                             Role = 2
                         },
                         new
@@ -208,20 +121,9 @@ namespace gg_test.Migrations
                             Department = "Marketing",
                             Email = "emp2@example.com",
                             Name = "Employee2",
-                            Password = "$2a$11$khFETW3SimDiMibnsBGI5O8g9RHJZ1UTiBzWCzwJkcwzJ9sykOhxS",
+                            Password = "$2a$11$IU6Tq.t2jgcCyhvkgLhnsugbez12dQNT7x1WfUe7D91Ks1zU1R1q6",
                             Role = 2
                         });
-                });
-
-            modelBuilder.Entity("gg_test.Models.KPI", b =>
-                {
-                    b.HasOne("gg_test.Models.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Company");
                 });
 #pragma warning restore 612, 618
         }

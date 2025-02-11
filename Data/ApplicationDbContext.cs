@@ -12,6 +12,8 @@ namespace gg_test.Data
 
         public DbSet<EmailHistory> EmailHistories { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<KPI> KPIs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -61,6 +63,18 @@ namespace gg_test.Data
                     Role = Role.Employee, 
                     Password = BCrypt.Net.BCrypt.HashPassword("emp123")
                 }
+            );
+
+            modelBuilder.Entity<Company>().HasData(
+                new Company { Id = 1, Name = "Company A" },
+                new Company { Id = 2, Name = "Company B" }
+            );
+
+            modelBuilder.Entity<KPI>().HasData(
+                new KPI { Id = 1, CompanyId = 1, MonthlyRevenue = 100000, NetProfit = 20000, ProfitMargin = 20 },
+                new KPI { Id = 2, CompanyId = 1, MonthlyRevenue = 120000, NetProfit = 25000, ProfitMargin = 21 },
+                new KPI { Id = 3, CompanyId = 2, MonthlyRevenue = 150000, NetProfit = 30000, ProfitMargin = 20 },
+                new KPI { Id = 4, CompanyId = 2, MonthlyRevenue = 160000, NetProfit = 32000, ProfitMargin = 20 }
             );
         }
 
