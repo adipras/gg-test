@@ -26,18 +26,20 @@ cd gg-test
 ```
 
 ### 2. Configure Environment Variables
-Set SMTP credentials securely:
+Set credentials securely:
 
 #### Linux/macOS
 ```sh
 export SMTP_USERNAME="your-email@gmail.com"
 export SMTP_PASSWORD="your-email-password"
+export JWT_KEY="your-very-long-and-secure-secret-key-here"
 ```
 
 #### Windows PowerShell
 ```powershell
 $env:SMTP_USERNAME="your-email@gmail.com"
 $env:SMTP_PASSWORD="your-email-password"
+$env:JWT_KEY="your-very-long-and-secure-secret-key-here"
 ```
 
 Alternatively, use `dotnet user-secrets`:
@@ -46,6 +48,7 @@ Alternatively, use `dotnet user-secrets`:
 dotnet user-secrets init
 dotnet user-secrets set "SmtpSettings:Username" "your-email@gmail.com"
 dotnet user-secrets set "SmtpSettings:Password" "your-email-password"
+dotnet user-secrets set "JwtSettings:JwtKey" "your-email-password"
 ```
 
 ### 3. Configure Database Connection
@@ -72,7 +75,7 @@ dotnet ef database update
 dotnet run
 ```
 
-API will be available at `http://localhost:5000/swagger`.
+API will be available at `http://localhost:5125/swagger`.
 
 ## API Endpoints
 
@@ -88,6 +91,32 @@ API will be available at `http://localhost:5000/swagger`.
 
 ### Get Email History
 **GET** `/api/emails/history`
+
+### User Login
+**POST** `/api/auth/login`
+```json
+{
+  "username": "your-username",
+  "password": "your-password"
+}
+```
+
+### Get Users
+**GET** `/api/users`
+- Requires authentication.
+- Returns a list of users based on the role of the currently logged-in user.
+  - **Admin**: Can see all user data.
+  - **Manager**: Can only see data for users in their department.
+  - **Employees**: Can only see their own data.
+
+## Seeded Users for Testing
+
+| Username           | Password     | Role     |
+|--------------------|--------------|----------|
+| admin@example.com  | admin123     | Admin    |
+| manager@example.com| manager123   | Manager  |
+| emp1@example.com   | emp123       | Employee |
+| emp2@example.com   | emp123       | Employee |
 
 ## Security Considerations
 - **Never store credentials in `appsettings.json`**.
